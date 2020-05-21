@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Post;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +18,22 @@ Route::get('/', function () {
 });
 
 Route::resource('contacts', 'ContactController');
+
+
+
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/post/{post}', 'PostController@show')->name('post');
+
+Route::middleware('auth')->group(function(){
+    Route::get('/admin', 'AdminsController@index')->name('admin.index');
+    Route::get('/admin/posts/create', 'PostController@create')->name('post.create');
+    Route::get('/admin/category/create', 'CategoryController@create')->name('category.create');
+    Route::post('/admin/category/store', 'CategoryController@store')->name('category.store');
+    Route::resource('adminPost', 'AdminPostController');
+    
+
+});
+
+ Route::get('logout', 'AdminsController@logout');
