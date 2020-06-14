@@ -36,4 +36,6 @@ Route::middleware('auth')->group(function(){
 
 });
 
+Route::resource('admin/users', 'AdminUsersController');
+
  Route::get('logout', 'AdminsController@logout');

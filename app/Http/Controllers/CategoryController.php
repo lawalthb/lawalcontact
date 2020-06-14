@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Post;
 class CategoryController extends Controller
 {
     public function create()
@@ -35,11 +36,11 @@ class CategoryController extends Controller
         return redirect('/admin')->with('success', 'Category saved!');
         
 
-        public function posts(){
-        return $this->hasMany(Post::class);
-    }
+       
 
      }
 
-    
+     public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }

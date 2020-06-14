@@ -2,30 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Post;
-use App\User;
-use App\Category;
-use Illuminate\Support\Facades\Auth;
 
-class AdminPostController extends Controller
+use Illuminate\Http\Request;
+use App\Http\Requests\UsersRequest;
+use App\User;
+use App\Role;
+
+class AdminUsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index()
     {
-       // $user = User::All();
-       // $posts = Post::where("user_id", "=", $user->id);
-       // $posts = Post::all();
-       $posts = Post::all();
-        //$posts = Post::orderBy('created_at','desc')->where('user_id', 5)->get();
-        return view('admin.posts.postlist', ['posts'=>$posts]);
-
-        //$posts =Post::with('users')->get();
-        //return view('admin.posts.postlist', compact('posts'));
+        //    
+        $users = User::all();
+        return view('admin/users/index', compact('users'));
     }
 
     /**
@@ -35,10 +29,8 @@ class AdminPostController extends Controller
      */
     public function create()
     {
-        //
-       echo 2;
-        //return view('admin.posts.create', compact('categories'));
-
+      $roles = Role::all();
+      return view('admin/users/create', compact('roles'));
     }
 
     /**
@@ -47,30 +39,16 @@ class AdminPostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsersRequest $request)
     {
+
+        User::create($request->all());
+
+
+        return redirect('/admin/users');
+       // return $request->all();
         //
-
-         $request->validate([
-            'title'=>'required',
-            'body'=>'required',
-            'category'=>'required'
-        ]);    
-       
-         $post = new Post([
-            'user_id' => Auth::user()->id,
-            'title' => $request->get('title'),
-            'body' => $request->get('body'),
-            'category_id' => $request->get('category')
-            
-        ]);
-        $post->save();
-        return redirect('/admin')->with('success', 'Post saved!');
-        
-
-
-
-     }
+    }
 
     /**
      * Display the specified resource.
